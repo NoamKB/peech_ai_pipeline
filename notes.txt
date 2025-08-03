@@ -1,0 +1,345 @@
+1. Project Overview
+The goal was to build an end-to-end pipeline that:
+
+Scrapes real-world news data from websites.
+
+Classifies the headlines into meaningful categories using AI.
+
+Stores the results in a database for further analysis.
+
+Designs the system with scalability and research mindset in mind.
+
+2. Steps Completed
+Step 1: Project Setup
+Tools Installed: Python, Git, Playwright, HuggingFace Transformers.
+
+Environment: Virtual environment (venv) for clean dependency management.
+
+Version Control: Git + GitHub for professional delivery.
+
+Why?
+
+Python has the richest ecosystem for scraping, AI, and data storage.
+
+Virtual environment ensures no conflicts with global packages.
+
+GitHub makes project sharing and review easy.
+
+Step 2: Web Scraping
+Initially tried TechCrunch, but Playwright timed out (dynamic content & bot protection).
+
+Switched to BBC News for a more stable demo site.
+
+Tool: Playwright (instead of BeautifulSoup or Selenium)
+
+Handles JavaScript-heavy pages and dynamic content.
+
+Faster and more modern than Selenium.
+
+Can run in headless mode for automation or visible for debugging.
+
+Challenges:
+
+Timeout and empty scraping results.
+
+Solved by switching websites and using Playwright’s wait_until="domcontentloaded".
+
+Step 3: Classification
+Tried OpenAI GPT (API) first:
+
+Faced quota issues → not reliable for demo.
+
+Switched to HuggingFace zero-shot model (facebook/bart-large-mnli):
+
+Initial accuracy was low (ambiguous categories).
+
+Upgraded to CardiffNLP topic classification model (cardiffnlp/tweet-topic-21-multi):
+
+Much better at news-related topics.
+
+Normalized raw labels (e.g., music → Entertainment) using a mapping dictionary.
+
+Challenges & Fixes:
+
+Misclassifications (e.g., death at concert → Entertainment).
+
+Added keyword-based rules:
+
+If headline contains tragedy keywords (e.g., "killed", "died"), override category to World News.
+
+Why HuggingFace instead of GPT?
+
+Free, local, and no quota issues.
+
+Shows hybrid thinking (AI model selection for cost & reliability).
+
+Step 4: Data Storage
+Chose SQLite as the database.
+
+Created a table headlines with fields: headline, category, and timestamp.
+
+Why SQLite?
+
+Lightweight, portable, no server setup.
+
+Perfect for small-scale prototypes.
+
+Easy for reviewers to run without extra installations.
+
+Scalability path: could be replaced with PostgreSQL or a cloud DB in production.
+
+Step 5: Data Modeling Improvements
+Added classification mapping for clean categories:
+
+news_&_social_concern → World News
+
+arts_&_culture → Entertainment
+
+etc.
+
+Added keyword rules for edge cases (e.g., tragedies override Entertainment).
+
+3. Challenges & How I Overcame Them
+Websites blocking scraping:
+
+Switched from TechCrunch to BBC News for stability.
+
+Used Playwright’s wait_until="domcontentloaded" for proper loading.
+
+OpenAI quota errors:
+
+Switched to HuggingFace models.
+
+Showed fallback design thinking.
+
+Low classification accuracy:
+
+Changed models (bart-large-mnli → cardiffnlp).
+
+Added mapping and keyword-based overrides.
+
+Ambiguous categories:
+
+Added a “General News” fallback for low-confidence predictions.
+
+4. Tools & Why They Were Chosen
+Scraping: Playwright
+Better than Selenium and BeautifulSoup for dynamic content.
+
+Supports headless browsing and async.
+
+Classification: HuggingFace (CardiffNLP)
+Local, free, reliable.
+
+Can be paired with GPT fallback later.
+
+Storage: SQLite
+Simple and portable for small datasets.
+
+No need for DB server setup.
+
+Version Control: GitHub
+Professional delivery.
+
+Makes it easy for others to run.
+
+5. Next Steps (if more time)
+Add parallel scraping for multiple sites (async).
+
+Build a Streamlit dashboard to view classified headlines from the database.
+
+Add GPT fallback for low-confidence cases.
+
+Package the pipeline in Docker for easy deployment.
+
+6. Scalability Vision
+In production:
+
+Database: Replace SQLite with PostgreSQL or a managed cloud DB.
+
+Architecture:
+
+Scraper → message queue (e.g., RabbitMQ/SQS) → classifier workers → storage.
+
+Enables parallel processing and horizontal scaling.
+
+End Result
+Built a complete scraper-classifier-storage pipeline.
+
+Showed flexibility (switched tools when needed).
+
+Added intelligent logic (keyword rules, mappings).
+
+Designed a system that can scale in real-world production.1. Project Overview
+The goal was to build an end-to-end pipeline that:
+
+Scrapes real-world news data from websites.
+
+Classifies the headlines into meaningful categories using AI.
+
+Stores the results in a database for further analysis.
+
+Designs the system with scalability and research mindset in mind.
+
+2. Steps Completed
+Step 1: Project Setup
+Tools Installed: Python, Git, Playwright, HuggingFace Transformers.
+
+Environment: Virtual environment (venv) for clean dependency management.
+
+Version Control: Git + GitHub for professional delivery.
+
+Why?
+
+Python has the richest ecosystem for scraping, AI, and data storage.
+
+Virtual environment ensures no conflicts with global packages.
+
+GitHub makes project sharing and review easy.
+
+Step 2: Web Scraping
+Initially tried TechCrunch, but Playwright timed out (dynamic content & bot protection).
+
+Switched to BBC News for a more stable demo site.
+
+Tool: Playwright (instead of BeautifulSoup or Selenium)
+
+Handles JavaScript-heavy pages and dynamic content.
+
+Faster and more modern than Selenium.
+
+Can run in headless mode for automation or visible for debugging.
+
+Challenges:
+
+Timeout and empty scraping results.
+
+Solved by switching websites and using Playwright’s wait_until="domcontentloaded".
+
+Step 3: Classification
+Tried OpenAI GPT (API) first:
+
+Faced quota issues → not reliable for demo.
+
+Switched to HuggingFace zero-shot model (facebook/bart-large-mnli):
+
+Initial accuracy was low (ambiguous categories).
+
+Upgraded to CardiffNLP topic classification model (cardiffnlp/tweet-topic-21-multi):
+
+Much better at news-related topics.
+
+Normalized raw labels (e.g., music → Entertainment) using a mapping dictionary.
+
+Challenges & Fixes:
+
+Misclassifications (e.g., death at concert → Entertainment).
+
+Added keyword-based rules:
+
+If headline contains tragedy keywords (e.g., "killed", "died"), override category to World News.
+
+Why HuggingFace instead of GPT?
+
+Free, local, and no quota issues.
+
+Shows hybrid thinking (AI model selection for cost & reliability).
+
+Step 4: Data Storage
+Chose SQLite as the database.
+
+Created a table headlines with fields: headline, category, and timestamp.
+
+Why SQLite?
+
+Lightweight, portable, no server setup.
+
+Perfect for small-scale prototypes.
+
+Easy for reviewers to run without extra installations.
+
+Scalability path: could be replaced with PostgreSQL or a cloud DB in production.
+
+Step 5: Data Modeling Improvements
+Added classification mapping for clean categories:
+
+news_&_social_concern → World News
+
+arts_&_culture → Entertainment
+
+etc.
+
+Added keyword rules for edge cases (e.g., tragedies override Entertainment).
+
+3. Challenges & How I Overcame Them
+Websites blocking scraping:
+
+Switched from TechCrunch to BBC News for stability.
+
+Used Playwright’s wait_until="domcontentloaded" for proper loading.
+
+OpenAI quota errors:
+
+Switched to HuggingFace models.
+
+Showed fallback design thinking.
+
+Low classification accuracy:
+
+Changed models (bart-large-mnli → cardiffnlp).
+
+Added mapping and keyword-based overrides.
+
+Ambiguous categories:
+
+Added a “General News” fallback for low-confidence predictions.
+
+4. Tools & Why They Were Chosen
+Scraping: Playwright
+Better than Selenium and BeautifulSoup for dynamic content.
+
+Supports headless browsing and async.
+
+Classification: HuggingFace (CardiffNLP)
+Local, free, reliable.
+
+Can be paired with GPT fallback later.
+
+Storage: SQLite
+Simple and portable for small datasets.
+
+No need for DB server setup.
+
+Version Control: GitHub
+Professional delivery.
+
+Makes it easy for others to run.
+
+5. Next Steps (if more time)
+Add parallel scraping for multiple sites (async).
+
+Build a Streamlit dashboard to view classified headlines from the database.
+
+Add GPT fallback for low-confidence cases.
+
+Package the pipeline in Docker for easy deployment.
+
+6. Scalability Vision
+In production:
+
+Database: Replace SQLite with PostgreSQL or a managed cloud DB.
+
+Architecture:
+
+Scraper → message queue (e.g., RabbitMQ/SQS) → classifier workers → storage.
+
+Enables parallel processing and horizontal scaling.
+
+End Result
+Built a complete scraper-classifier-storage pipeline.
+
+Showed flexibility (switched tools when needed).
+
+Added intelligent logic (keyword rules, mappings).
+
+Designed a system that can scale in real-world production.

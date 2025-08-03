@@ -1,0 +1,14 @@
+{
+  "websites": [
+    {
+      "name": "BBC News",
+      "url": "https://www.bbc.com/news",
+      "selector": "h2"
+    },
+    {
+      "name": "TechCrunch",
+      "url": "https://techcrunch.com/",
+      "selector": "a.post-block__title__link"
+    }
+  ]
+}
