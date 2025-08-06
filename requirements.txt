@@ -1,0 +1,26 @@
+# Core Dependencies
+playwright>=1.40.0
+transformers>=4.35.0
+torch>=2.0.0
+sqlite3
+
+# AI/ML Dependencies
+sentence-transformers>=2.2.0
+numpy>=1.24.0
+
+# Web Scraping Dependencies
+beautifulsoup4>=4.12.0
+requests>=2.31.0
+
+# Data Processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Development & Testing
+pytest>=7.4.0
+pytest-playwright>=0.4.0
+black>=23.0.0
+flake8>=6.0.0
+
+# Optional: For enhanced performance
+accelerate>=0.24.0 

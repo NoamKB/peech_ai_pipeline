@@ -1,9 +1,24 @@
 {
+  "db_path": "youtube.db",
   "websites": [
     {
-      "name": "BBC News",
-      "url": "https://www.bbc.com/news",
-      "selector": "h2"
+      "name": "YouTube Search - AI Marketing Tips",
+      "url": "https://www.youtube.com/results?search_query=ai+marketing+tips",
+      "selector": "#video-title"
+    },
+    {
+      "name": "YouTube Channel - Neil Patel",
+      "url": "https://www.youtube.com/@NeilPatel/videos",
+      "selector": "#video-title"
     }
-    ]
+  ],
+  "categories": [
+    "Marketing Strategy",
+    "Business Tips", 
+    "AI/Technology",
+    "Social Media",
+    "SEO/Digital Marketing",
+    "Business Growth",
+    "Tutorial/How-to"
+  ]
 }

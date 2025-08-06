@@ -1,35 +1,19 @@
+"""
+This module provides the HeadlineClassifier class for categorizing YouTube video titles (or other text) using a zero-shot classification model.
+Refactored for modularity: the classifier is now encapsulated in a class for easier testing and reuse, and supports custom candidate categories.
+"""
 from transformers import pipeline
 
-model = pipeline("text-classification", model="cardiffnlp/tweet-topic-21-multi")
+class HeadlineClassifier:
+    def __init__(self, model_name="facebook/bart-large-mnli"):
+        self.model = pipeline("zero-shot-classification", model=model_name)
 
-tragedy_keywords = {"died", "killed", "death", "murder", "injured", "attack"}
-
-label_mapping = {
-    "news_&_social_concern": "World News",
-    "sports": "Sports",
-    "music": "Entertainment",
-    "arts_&_culture": "Entertainment",
-    "celebrity_&_pop_culture": "Entertainment",
-    "politics": "Politics",
-    "science_&_technology": "Technology",
-    "business_&_entrepreneurs": "Business",
-    "health": "Health",
-    "family": "General News",
-    "education": "General News",
-    "diaries_&_daily_life": "General News",
-    "film_tv_&_video": "Entertainment",
-    "environmental_issues": "World News",
-    "other": "General News"
-}
-
-def classify_headline(text):
-    result = model(text, top_k=3)
-    best = max(result, key=lambda x: x["score"])
-    label = best["label"]
-    score = best["score"]
-    category = label_mapping.get(label, "General News")
-
-    if score < 0.5 and any(word in text.lower() for word in tragedy_keywords):
-        category = "World News"
-
-    return category, label, score
+    def classify(self, text, candidate_labels):
+        """
+        Classifies the input text into one of the candidate_labels using zero-shot classification.
+        Returns the best category, all scores, and the raw model output.
+        """
+        result = self.model(text, candidate_labels)
+        best_idx = result['scores'].index(max(result['scores']))
+        best_category = result['labels'][best_idx]
+        return best_category, result['scores'], result
