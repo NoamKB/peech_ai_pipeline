@@ -1,5 +1,4 @@
 # YouTube Video Title Classification Pipeline
-## AI Specialist & Data Engineer Assessment Project
 
 A comprehensive end-to-end pipeline that demonstrates advanced skills in web scraping, AI-powered data classification, and scalable data storage. This project showcases a complete solution for extracting YouTube video titles, classifying them using zero-shot AI models, and storing results in an optimized database system.
 
