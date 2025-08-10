@@ -39,7 +39,7 @@ def main():
     db_path = config.get("db_path", "youtube.db")
     
     try:
-        # Initialize database with connection pooling (3 connections)
+        # Initialize DB with connection pooling (3 connections)
         db = Database(db_path, pool_size=3)
         db.init_db()
         #db.clear_all_data()  # Clear old data

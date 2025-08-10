@@ -20,8 +20,8 @@ class ScraperEngine:
         name = site["name"]
         url = site["url"]
         selector = site.get("selector")
-        page.goto(url, timeout=60000, wait_until="domcontentloaded")
-        page.wait_for_selector(selector or "#video-title", timeout=10000)
+        page.goto(url, timeout=60000, wait_until="domcontentloaded") # navigation to url and wait to DOM to load
+        page.wait_for_selector(selector or "#video-title", timeout=10000) # find selector "video-title"
 
         selectors = [selector] if selector else ["h1", "h2", "a"]
         headlines = []

@@ -4,7 +4,7 @@ Enhanced with batch processing and connection pooling for better performance.
 """
 import sqlite3
 from datetime import datetime
-from typing import Optional, List, Tuple, Dict, Any
+from typing import List, Tuple, Dict, Any
 from threading import Lock
 import queue
 
@@ -21,7 +21,7 @@ class DatabasePool:
         """
         self.db_path = db_path
         self.pool_size = pool_size
-        self.connections: queue.Queue = queue.Queue(maxsize=pool_size)
+        self.connections: queue.Queue = queue.Queue(maxsize=pool_size) # connection pooling
         self.lock = Lock()
         
         # Initialize connections
