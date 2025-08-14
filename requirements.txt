@@ -2,7 +2,6 @@
 playwright>=1.40.0
 transformers>=4.35.0
 torch>=2.0.0
-sqlite3
 
 # AI/ML Dependencies
 sentence-transformers>=2.2.0
